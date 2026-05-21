@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>5G FFR Showcase</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; color: #17202a; background: #f7f9fb; }
+    main { max-width: 920px; margin: 0 auto; padding: 48px 20px; }
+    h1 { font-size: 40px; margin-bottom: 8px; }
+    p { line-height: 1.6; }
+    .panel { background: #fff; border: 1px solid #d8e0e8; border-radius: 8px; padding: 20px; margin: 20px 0; }
+    code { background: #edf2f7; padding: 2px 5px; border-radius: 4px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { border: 1px solid #d8e0e8; padding: 10px; text-align: left; }
+    th { background: #e9f1f8; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>5G FFR Reproducibility Showcase</h1>
+    <p>A public synthetic-data demo for fractional frequency reuse, SNR sweeps, edge SINR checks, and MATLAB-style figure generation.</p>
+    <section class="panel">
+      <h2>Run Locally</h2>
+      <p><code>python scripts/run_paper_alignment.py</code></p>
+      <p><code>python scripts/verify_paper_trends.py</code></p>
+      <p><code>python scripts/generate_figures.py</code></p>
+      <p><code>pytest</code></p>
+    </section>
+    <section>
+      <h2>Figure Status</h2>
+      <table>
+        <tr><th>Figure</th><th>Target</th><th>Data</th></tr>
+        <tr><td>Fig.3 Capacity vs SNR</td><td>SNR-capacity trend</td><td>Synthetic/demo</td></tr>
+        <tr><td>Fig.4 Edge SINR</td><td>FFR edge-user gain</td><td>Synthetic/demo</td></tr>
+      </table>
+    </section>
+  </main>
+</body>
+</html>
