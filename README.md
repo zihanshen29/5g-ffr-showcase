@@ -6,7 +6,7 @@
 
 ## Related Paper
 
-- Paper: [Application of Fractional Frequency Reuse in Interference Mitigation for 5G Cellular Networks](https://drpress.org/ojs/index.php/HSET/article/view/28966)
+- Paper: [Research on Fractional Frequency Multiplexing Strategies in 5G Networks](https://drpress.org/ojs/index.php/HSET/article/view/28966)
 
 该论文链接用于说明项目主题来源和研究方向。仓库中的图表、CSV 和 JSON 输出均由本仓库代码生成，是公开展示用的合成 demo，不等同于论文原始数据或私有实现。
 
