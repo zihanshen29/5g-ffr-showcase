@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>5G 分数频率复用仿真展示</title>
+  <title>5G FFR 仿真作品展示</title>
+  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="%231f6f8b"/><path d="M20 46h24M32 18v28M24 28c5-5 11-5 16 0M18 20c9-9 19-9 28 0" fill="none" stroke="white" stroke-width="4" stroke-linecap="round"/><text x="32" y="58" text-anchor="middle" font-size="11" font-family="Arial" fill="white">5G</text></svg>'>
   <style>
     :root {
       --ink: #17202a;
@@ -15,7 +16,7 @@
     }
     * { box-sizing: border-box; }
     body { margin: 0; font-family: Arial, "Microsoft YaHei", sans-serif; color: var(--ink); background: var(--bg); }
-    main { max-width: 1040px; margin: 0 auto; padding: 44px 22px 56px; }
+    main { max-width: 1040px; margin: 0 auto; padding: 44px 22px 32px; }
     h1 { font-size: 36px; margin: 0 0 10px; letter-spacing: 0; }
     h2 { margin-top: 30px; font-size: 22px; }
     p { line-height: 1.7; }
@@ -23,7 +24,9 @@
     a:hover { text-decoration: underline; }
     .hero, .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 20px; }
     .subtitle { color: var(--muted); margin: 0; }
-    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+    .candidate { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 4px; color: #334155; }
+    .candidate span, .candidate a { border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; background: #f2f6f9; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
     .button { border: 1px solid var(--accent); border-radius: 6px; padding: 9px 12px; color: var(--accent); background: #edf7fa; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
     table { width: 100%; border-collapse: collapse; background: #fff; }
@@ -32,6 +35,8 @@
     code { background: #edf2f7; padding: 2px 5px; border-radius: 4px; }
     .tagrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
     .tag { background: #edf2f7; border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; color: #334155; }
+    footer { max-width: 1040px; margin: 0 auto; padding: 0 22px 38px; color: var(--muted); }
+    footer nav { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
   </style>
 </head>
 <body>
@@ -39,10 +44,15 @@
     <section class="hero">
       <h1>5G 分数频率复用仿真展示</h1>
       <p class="subtitle">一个公开、脱敏、基于合成数据的 5G FFR 仿真复现展示：围绕 SNR 扫描、边缘用户 SINR、容量趋势和论文风格图表生成，展示通信仿真与趋势验证能力。</p>
+      <div class="candidate" aria-label="候选人信息">
+        <span>沈子涵</span>
+        <a href="mailto:2072475827@qq.com">2072475827@qq.com</a>
+        <a href="https://zihanshen29.github.io/">作品集主页</a>
+      </div>
       <div class="actions">
         <a class="button" href="https://github.com/zihanshen29/5g-ffr-showcase">查看 GitHub 仓库</a>
-        <a class="button" href="./methodology.md">方法说明</a>
-        <a class="button" href="./reproducibility.md">可复现说明</a>
+        <a class="button" href="https://github.com/zihanshen29/5g-ffr-showcase/blob/main/docs/methodology.md">方法说明</a>
+        <a class="button" href="https://github.com/zihanshen29/5g-ffr-showcase/blob/main/docs/reproducibility.md">可复现说明</a>
       </div>
     </section>
 
@@ -59,7 +69,7 @@
       <tr><th>图表</th><th>公开 demo 目标</th><th>脚本</th><th>数据边界</th></tr>
       <tr><td>Fig.3 Capacity vs SNR</td><td>展示容量随 SNR 增长，SWF 类策略提升总容量</td><td><code>python scripts/generate_figures.py</code></td><td>合成 demo 数据</td></tr>
       <tr><td>Fig.4 Edge SINR</td><td>展示 FFR 类策略改善边缘用户 SINR</td><td><code>python scripts/generate_figures.py</code></td><td>合成 demo 数据</td></tr>
-      <tr><td>Capacity vs user density</td><td>展示用户密度变化下容量/干扰趋势</td><td><code>python scripts/run_paper_alignment.py</code></td><td>合成 demo 数据</td></tr>
+      <tr><td>Capacity vs user density</td><td>展示用户密度变化下容量和干扰趋势</td><td><code>python scripts/run_paper_alignment.py</code></td><td>合成 demo 数据</td></tr>
       <tr><td>Trend verification</td><td>自动验证定性趋势是否成立</td><td><code>python scripts/verify_paper_trends.py</code></td><td>合成 demo 数据</td></tr>
     </table>
 
@@ -86,5 +96,13 @@
     <h2>合规边界</h2>
     <p>该页面和仓库用于公开作品集展示。数据和图表由代码生成的 synthetic/demo 数据构成，不复制私有 MATLAB 源码，不包含原始实验输出，也不把 demo 结果表述为真实论文数据。</p>
   </main>
+  <footer>
+    <strong>沈子涵 Showcase Series</strong>
+    <nav>
+      <a href="https://zihanshen29.github.io/robot-a1-showcase/">A1 机器人</a>
+      <a href="https://zihanshen29.github.io/5g-ffr-showcase/">5G FFR</a>
+      <a href="https://zihanshen29.github.io/arduino-mega-pick-place-showcase/">Arduino 取放分拣</a>
+    </nav>
+  </footer>
 </body>
 </html>
