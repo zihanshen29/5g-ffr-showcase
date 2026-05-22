@@ -43,7 +43,7 @@
   <main>
     <section class="hero">
       <h1>5G 分数频率复用仿真展示</h1>
-      <p class="subtitle">一个公开、脱敏、基于合成数据的 5G FFR 仿真复现展示：围绕 SNR 扫描、边缘用户 SINR、容量趋势和论文风格图表生成，展示通信仿真与趋势验证能力。</p>
+      <p class="subtitle">5G 分数频率复用（FFR）仿真项目：对比 IFR3、SWF、FFR+IFR3、FFR+SWF 在 SNR、边缘 SINR、容量和干扰指标上的差异，并用 Python 生成论文风格图表与趋势验证结果。</p>
       <div class="candidate" aria-label="候选人信息">
         <span>沈子涵</span>
         <a href="mailto:2072475827@qq.com">2072475827@qq.com</a>
@@ -61,19 +61,19 @@
 
     <h2>展示内容</h2>
     <div class="grid">
-      <div class="panel"><strong>网络仿真</strong><br>使用合成参数构造 SNR、用户密度、容量和干扰趋势。</div>
-      <div class="panel"><strong>策略对比</strong><br>比较 IFR3、SWF、FFR+IFR3、FFR+SWF 等策略的 demo 指标。</div>
+      <div class="panel"><strong>网络仿真</strong><br>构造 SNR、用户密度、容量和干扰趋势，复现论文中的关键对比逻辑。</div>
+      <div class="panel"><strong>策略对比</strong><br>比较 IFR3、SWF、FFR+IFR3、FFR+SWF 等策略在容量和边缘用户体验上的差异。</div>
       <div class="panel"><strong>趋势验证</strong><br>检查容量随 SNR 增长、FFR 提升边缘 SINR、密度提高带来干扰增加等定性规律。</div>
-      <div class="panel"><strong>论文风格图表</strong><br>生成 Fig.3 / Fig.4 风格的合成 demo 图表，便于简历与面试讲解。</div>
+      <div class="panel"><strong>论文风格图表</strong><br>生成 Fig.3 / Fig.4 风格图表，便于简历与面试讲解。</div>
     </div>
 
     <h2>图表复现状态</h2>
     <table>
-      <tr><th>图表</th><th>公开 demo 目标</th><th>脚本</th><th>数据边界</th></tr>
-      <tr><td>Fig.3 Capacity vs SNR</td><td>展示容量随 SNR 增长，SWF 类策略提升总容量</td><td><code>python scripts/generate_figures.py</code></td><td>合成 demo 数据</td></tr>
-      <tr><td>Fig.4 Edge SINR</td><td>展示 FFR 类策略改善边缘用户 SINR</td><td><code>python scripts/generate_figures.py</code></td><td>合成 demo 数据</td></tr>
-      <tr><td>Capacity vs user density</td><td>展示用户密度变化下容量和干扰趋势</td><td><code>python scripts/run_paper_alignment.py</code></td><td>合成 demo 数据</td></tr>
-      <tr><td>Trend verification</td><td>自动验证定性趋势是否成立</td><td><code>python scripts/verify_paper_trends.py</code></td><td>合成 demo 数据</td></tr>
+      <tr><th>图表</th><th>展示目标</th><th>脚本</th><th>输出内容</th></tr>
+      <tr><td>Fig.3 Capacity vs SNR</td><td>展示容量随 SNR 增长，SWF 类策略提升总容量</td><td><code>python scripts/generate_figures.py</code></td><td>容量曲线与策略对比</td></tr>
+      <tr><td>Fig.4 Edge SINR</td><td>展示 FFR 类策略改善边缘用户 SINR</td><td><code>python scripts/generate_figures.py</code></td><td>边缘 SINR 趋势图</td></tr>
+      <tr><td>Capacity vs user density</td><td>展示用户密度变化下容量和干扰趋势</td><td><code>python scripts/run_paper_alignment.py</code></td><td>密度扫描结果</td></tr>
+      <tr><td>Trend verification</td><td>自动验证定性趋势是否成立</td><td><code>python scripts/verify_paper_trends.py</code></td><td>趋势检查报告</td></tr>
     </table>
 
     <h2>本地运行</h2>
@@ -96,8 +96,6 @@
       <span class="tag">Python reproducibility</span>
     </div>
 
-    <h2>合规边界</h2>
-    <p>该页面和仓库用于公开作品集展示。数据和图表由代码生成的 synthetic/demo 数据构成，不复制私有 MATLAB 源码，不包含原始实验输出，也不把 demo 结果表述为真实论文数据。</p>
   </main>
   <footer>
     <strong>沈子涵 Showcase Series</strong>
@@ -106,6 +104,7 @@
       <a href="https://zihanshen29.github.io/5g-ffr-showcase/">5G FFR</a>
       <a href="https://zihanshen29.github.io/arduino-mega-pick-place-showcase/">Arduino 取放分拣</a>
     </nav>
+    <p style="font-size:12px;">公开仓库使用可复现脚本和示例数据展示仿真流程，未包含原始 MATLAB 私有源码。</p>
   </footer>
 </body>
 </html>
