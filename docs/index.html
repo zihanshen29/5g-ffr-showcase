@@ -43,7 +43,7 @@
   <main>
     <section class="hero">
       <h1>5G 分数频率复用仿真展示</h1>
-      <p class="subtitle">5G 分数频率复用（FFR）仿真项目：对比 IFR3、SWF、FFR+IFR3、FFR+SWF 在 SNR、边缘 SINR、容量和干扰指标上的差异，并用 Python 生成论文风格图表与趋势验证结果。</p>
+      <p class="subtitle">5G 分数频率复用（FFR）项目：第一作者综述论文 + 私有 MATLAB 自主复现 19-cell 策略对比；公开页面用 Python 合成数据展示 SNR、边缘 SINR、容量和干扰趋势验证流程。</p>
       <div class="candidate" aria-label="候选人信息">
         <span>沈子涵</span>
         <a href="mailto:2072475827@qq.com">2072475827@qq.com</a>
@@ -61,20 +61,56 @@
 
     <h2>展示内容</h2>
     <div class="grid">
-      <div class="panel"><strong>网络仿真</strong><br>构造 SNR、用户密度、容量和干扰趋势，复现论文中的关键对比逻辑。</div>
+      <div class="panel"><strong>网络仿真</strong><br>构造 SNR、用户密度、容量和干扰趋势，展示 19-cell 策略对比逻辑。</div>
       <div class="panel"><strong>策略对比</strong><br>比较 IFR3、SWF、FFR+IFR3、FFR+SWF 等策略在容量和边缘用户体验上的差异。</div>
-      <div class="panel"><strong>趋势验证</strong><br>检查容量随 SNR 增长、FFR 提升边缘 SINR、密度提高带来干扰增加等定性规律。</div>
+      <div class="panel"><strong>趋势验证</strong><br>检查容量随 SNR 增长、FFR 改善固定分配边缘 SINR、FFR+SWF 保持接近 SWF 的边缘性能等规律。</div>
       <div class="panel"><strong>论文风格图表</strong><br>生成 Fig.3 / Fig.4 风格图表，便于简历与面试讲解。</div>
     </div>
+
+    <h2>论文与复现口径</h2>
+    <div class="panel">
+      <p>论文是第一作者综述，收录于 CSIC 2024 会议论文集，刊于 HSET Vol. 124, pp. 308-313，DOI: 10.54097/jf1y1p12。私有 MATLAB 项目是对综述所涉文献 19-cell 实验的自主复现；本公开仓库是该复现流程的 Python 合成数据展示版。</p>
+    </div>
+
+    <h2>已核实复现结果（私有 MATLAB）</h2>
+    <table>
+      <tr><th>核查项</th><th>2026-07 实测结果</th></tr>
+      <tr><td>趋势配置</td><td><code>Nf=12</code>、<code>Nsim=3</code>、<code>SNR=[0,10,20] dB</code>、<code>Um=[6,18]</code>；三条断言全部通过</td></tr>
+      <tr><td>容量随 SNR 0→20 dB 增量</td><td>SWF +110.5、FFR+IFR3 +39.6、FFR+SWF +28.2、IFR3 +25.2 bps/Hz</td></tr>
+      <tr><td>FFR+IFR3 vs IFR3</td><td>边缘 SINR +13%（0.01061 vs 0.009363）</td></tr>
+      <tr><td>FFR+SWF vs SWF</td><td>边缘 SINR 保持约 91%（0.1076 vs 0.1184）</td></tr>
+    </table>
+    <p class="subtitle">以上数字来自私有 MATLAB 复现实测输出，非本仓库合成数据。准确讲法是：FFR 对固定等功率分配有明确边缘增益；当功率分配本身已干扰感知时，组合的意义是在频谱硬隔离约束下保持接近的边缘性能。</p>
 
     <h2>图表复现状态</h2>
     <table>
       <tr><th>图表</th><th>展示目标</th><th>脚本</th><th>输出内容</th></tr>
       <tr><td>Fig.3 Capacity vs SNR</td><td>展示容量随 SNR 增长，SWF 类策略提升总容量</td><td><code>python scripts/generate_figures.py</code></td><td>容量曲线与策略对比</td></tr>
-      <tr><td>Fig.4 Edge SINR</td><td>展示 FFR 类策略改善边缘用户 SINR</td><td><code>python scripts/generate_figures.py</code></td><td>边缘 SINR 趋势图</td></tr>
+      <tr><td>Fig.4 Edge SINR</td><td>展示 FFR 改善固定分配边缘 SINR，FFR+SWF 在硬隔离下保持接近 SWF 的边缘性能</td><td><code>python scripts/generate_figures.py</code></td><td>边缘 SINR 趋势图</td></tr>
       <tr><td>Capacity vs user density</td><td>展示用户密度变化下容量和干扰趋势</td><td><code>python scripts/run_paper_alignment.py</code></td><td>密度扫描结果</td></tr>
       <tr><td>Trend verification</td><td>自动验证定性趋势是否成立</td><td><code>python scripts/verify_paper_trends.py</code></td><td>趋势检查报告</td></tr>
     </table>
+
+    <h2>两层正交性架构</h2>
+    <div class="panel">
+      <pre class="mermaid">flowchart LR
+  A["19-cell geometry"] --> B["rho coupling matrix"]
+  B --> C["IFR3 same-group masking"]
+  B --> D["FFR user x subband allowedMask"]
+  C --> E["linear-domain interference sum"]
+  D --> E
+  E --> F["SINR / capacity / edge metrics"]
+  F --> G["trend assertions"]</pre>
+      <p>几何层描述 19-cell 小区间距离耦合，同频层分别通过 IFR3 矩阵掩蔽和 FFR allowedMask 实现正交约束，最后在每个子带上线性累加干扰并计算指标。</p>
+    </div>
+
+    <h2>FAQ</h2>
+    <div class="grid">
+      <div class="panel"><strong>SWF 怎么求？</strong><br>使用迭代互注水思路，按用户排序计算闭式水位，并用功率变化阈值和最大迭代次数控制收敛。</div>
+      <div class="panel"><strong>边缘怎么判定？</strong><br>私有 MATLAB 复现按用户半径不小于 cellRadius/4 判定边缘用户。</div>
+      <div class="panel"><strong>为什么 19-cell？</strong><br>中心小区加两圈邻区覆盖主要同频干扰来源，同时保持仿真规模可控。</div>
+      <div class="panel"><strong>为什么用合成数据展示？</strong><br>公开层展示管线和趋势验证能力，不发布私有 MATLAB 源码或原始复现输出。</div>
+    </div>
 
     <h2>本地运行</h2>
     <div class="panel">
@@ -97,6 +133,8 @@
     </div>
 
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({ startOnLoad: true });</script>
   <footer>
     <strong>沈子涵 Showcase Series</strong>
     <nav>
@@ -104,7 +142,7 @@
       <a href="https://zihanshen29.github.io/5g-ffr-showcase/">5G FFR</a>
       <a href="https://zihanshen29.github.io/arduino-mega-pick-place-showcase/">Arduino 取放分拣</a>
     </nav>
-    <p style="font-size:12px;">公开仓库使用可复现脚本和示例数据展示仿真流程，未包含原始 MATLAB 私有源码。</p>
+    <p style="font-size:12px;">公开仓库使用可复现脚本和示例数据展示仿真流程，未包含原始 MATLAB 私有源码。最近更新：2026-07。</p>
   </footer>
 </body>
 </html>
