@@ -37,14 +37,55 @@ This repository is a public synthetic-data showcase for a 5G fractional frequenc
 
 以下数字来自私有 MATLAB 复现的实测输出（2026-07），非本仓库合成数据。它们用于说明本人复现工作的核实口径，不与公开 demo 图表混作同一数据源。
 
-| Check | Verified result |
-| --- | --- |
-| Trend configuration | `Nf=12`, `Nsim=3`, `SNR=[0,10,20] dB`, `Um=[6,18]`; three assertions passed |
-| Capacity gain from 0 to 20 dB | SWF +110.5, FFR+IFR3 +39.6, FFR+SWF +28.2, IFR3 +25.2 bps/Hz |
-| FFR+IFR3 vs IFR3 edge SINR | +13% (0.01061 vs 0.009363) |
-| FFR+SWF vs SWF edge SINR | Keeps about 91% of SWF (0.1076 vs 0.1184) |
+### Table 5G-1. Verified trend results
 
-精确讲法：FFR 对固定等功率分配（IFR3）有明确边缘增益；当功率分配本身已干扰感知（SWF）时，组合的意义是在频谱硬隔离约束下保持接近的边缘性能，而不是把组合策略讲成新的边缘增益来源。
+| Method | Capacity gain 0->20 dB (bps/Hz) | Edge SINR | Comparison conclusion |
+| --- | --- | --- | --- |
+| SWF | +110.5 | 0.1184 | Interference-aware water filling baseline |
+| FFR+SWF | +28.2 | 0.1076 | About 91% of SWF under hard spectral isolation |
+| FFR+IFR3 | +39.6 | 0.01061 | +13% edge SINR vs IFR3 |
+| IFR3 | +25.2 | 0.009363 | Fixed equal-power baseline |
+
+Trend configuration: `Nf=12`, `Nsim=3`, `SNR=[0,10,20] dB`, `Um=[6,18]`; all three assertions passed. 精确讲法：FFR 对固定等功率分配（IFR3）有明确边缘增益；当功率分配本身已干扰感知（SWF）时，组合的意义是在频谱硬隔离约束下保持接近的边缘性能，而不是把组合策略讲成新的边缘增益来源。
+
+### Table 5G-2. Simulation parameters
+
+| Parameter | Value |
+| --- | --- |
+| Cell layout | 19 cells (1+6+12) |
+| Frequency bands | `Nf=24` |
+| SNR sweep | 0:5:25 dB |
+| User density | `Um=10` Poisson mean |
+| Monte Carlo runs | `Nsim=20` |
+| Path-loss exponent | alpha=3.6 |
+| Small-scale fading | Rayleigh |
+| Edge-user rule | user radius >= cellRadius/4 |
+| Randomness | fixed random seed |
+
+### Table 5G-3. Method configuration
+
+| Method | rho mode | allowedMask | Power allocation |
+| --- | --- | --- | --- |
+| IFR3 | same-group masking | `ifr3Mask` | equal power |
+| SWF | full geometry | full band | iterative water filling |
+| FFR+IFR3 | full geometry | center + edge mask | equal power |
+| FFR+SWF | full geometry | center + edge mask | iterative water filling |
+
+## Verified reproduction figures
+
+These are verified reproduction figures from the private MATLAB run (2026), not synthetic demo data.
+
+![Capacity vs SNR verified reproduction figure](docs/assets/media/ffr_capacity_vs_snr_verified.png)
+
+Caption: Verified reproduction figure from the private MATLAB run (2026) — not synthetic demo data.
+
+![Capacity vs user density verified reproduction figure](docs/assets/media/ffr_capacity_vs_user_density_verified.png)
+
+Caption: Verified reproduction figure from the private MATLAB run (2026) — not synthetic demo data.
+
+![Edge SINR and edge capacity verified reproduction figure](docs/assets/media/ffr_edge_sinr_edge_capacity_verified.png)
+
+Caption: Verified reproduction figure from the private MATLAB run (2026) — not synthetic demo data.
 
 ## Architecture notes
 
@@ -89,6 +130,7 @@ src/ffr_showcase/      Synthetic simulation, trend checks, and plotting
 scripts/               Command-line entry points
 tests/                 Pytest smoke and trend tests
 docs/                  Public methodology notes and static demo page
+docs/assets/media/     Verified private-MATLAB reproduction figures
 data/                  Data policy and synthetic-data notes
 outputs/               Generated local artifacts, kept out of source by default
 ```

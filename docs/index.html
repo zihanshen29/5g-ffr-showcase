@@ -29,6 +29,10 @@
     .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
     .button { border: 1px solid var(--accent); border-radius: 6px; padding: 9px 12px; color: var(--accent); background: #edf7fa; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+    .figure-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .figure-card { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+    .figure-card img { width: 100%; height: auto; display: block; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+    .figure-card p { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
     table { width: 100%; border-collapse: collapse; background: #fff; }
     th, td { border: 1px solid var(--line); padding: 10px; text-align: left; vertical-align: top; }
     th { background: #e9f1f8; }
@@ -74,13 +78,37 @@
 
     <h2>已核实复现结果（私有 MATLAB）</h2>
     <table>
-      <tr><th>核查项</th><th>2026-07 实测结果</th></tr>
-      <tr><td>趋势配置</td><td><code>Nf=12</code>、<code>Nsim=3</code>、<code>SNR=[0,10,20] dB</code>、<code>Um=[6,18]</code>；三条断言全部通过</td></tr>
-      <tr><td>容量随 SNR 0→20 dB 增量</td><td>SWF +110.5、FFR+IFR3 +39.6、FFR+SWF +28.2、IFR3 +25.2 bps/Hz</td></tr>
-      <tr><td>FFR+IFR3 vs IFR3</td><td>边缘 SINR +13%（0.01061 vs 0.009363）</td></tr>
-      <tr><td>FFR+SWF vs SWF</td><td>边缘 SINR 保持约 91%（0.1076 vs 0.1184）</td></tr>
+      <tr><th>方法</th><th>容量增量 0→20 dB</th><th>边缘 SINR</th><th>对照结论</th></tr>
+      <tr><td>SWF</td><td>+110.5 bps/Hz</td><td>0.1184</td><td>干扰感知注水基线</td></tr>
+      <tr><td>FFR+SWF</td><td>+28.2 bps/Hz</td><td>0.1076</td><td>在频谱硬隔离下保持约 91% of SWF</td></tr>
+      <tr><td>FFR+IFR3</td><td>+39.6 bps/Hz</td><td>0.01061</td><td>边缘 SINR +13% vs IFR3</td></tr>
+      <tr><td>IFR3</td><td>+25.2 bps/Hz</td><td>0.009363</td><td>固定等功率基线</td></tr>
     </table>
-    <p class="subtitle">以上数字来自私有 MATLAB 复现实测输出，非本仓库合成数据。准确讲法是：FFR 对固定等功率分配有明确边缘增益；当功率分配本身已干扰感知时，组合的意义是在频谱硬隔离约束下保持接近的边缘性能。</p>
+    <p class="subtitle">趋势配置：Nf=12、Nsim=3、SNR=[0,10,20] dB、Um=[6,18]，三条断言全部通过。以上数字来自私有 MATLAB 复现实测输出，非本仓库合成数据。准确讲法是：FFR 对固定等功率分配有明确边缘增益；当功率分配本身已干扰感知时，组合的意义是在频谱硬隔离约束下保持接近的边缘性能。</p>
+
+    <h2>仿真参数与方法配置</h2>
+    <div class="grid">
+      <div class="panel"><strong>参数表</strong><br>19 cells（1+6+12）· Nf=24 · SNR 0:5:25 dB · Um=10 Poisson mean · Nsim=20 · α=3.6 · Rayleigh · edge rule r≥R/4 · fixed seed</div>
+      <div class="panel"><strong>IFR3</strong><br>rho 同组掩蔽 · ifr3Mask · 等功率分配</div>
+      <div class="panel"><strong>SWF</strong><br>全几何 rho · 全带 allowedMask · 迭代注水</div>
+      <div class="panel"><strong>FFR 组合</strong><br>全几何 rho · center + edge allowedMask · 等功率或迭代注水</div>
+    </div>
+
+    <h2>实测复现图（私有 MATLAB）</h2>
+    <div class="figure-grid">
+      <div class="figure-card">
+        <img src="./assets/media/ffr_capacity_vs_snr_verified.png" alt="Verified MATLAB reproduction capacity vs SNR">
+        <p>Verified reproduction figure from the private MATLAB run (2026) — not synthetic demo data.</p>
+      </div>
+      <div class="figure-card">
+        <img src="./assets/media/ffr_capacity_vs_user_density_verified.png" alt="Verified MATLAB reproduction capacity vs user density">
+        <p>Verified reproduction figure from the private MATLAB run (2026) — not synthetic demo data.</p>
+      </div>
+      <div class="figure-card">
+        <img src="./assets/media/ffr_edge_sinr_edge_capacity_verified.png" alt="Verified MATLAB reproduction edge SINR and edge capacity">
+        <p>Verified reproduction figure from the private MATLAB run (2026) — not synthetic demo data.</p>
+      </div>
+    </div>
 
     <h2>图表复现状态</h2>
     <table>
