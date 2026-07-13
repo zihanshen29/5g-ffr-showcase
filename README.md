@@ -1,6 +1,8 @@
 # 5G FFR 仿真复现作品展示
 
-这是一个面向作品集、简历和面试讲解的 5G 分数频率复用（Fractional Frequency Reuse, FFR）公开展示仓库。仓库用 Python 构建可重复的合成数据仿真流程，复刻自主复现所用的 MATLAB 验证管线结构：生成 SNR 与用户密度扫描、比较 IFR3/SWF/FFR 组合策略、验证定性趋势，并输出论文风格图表。
+[![CI](https://github.com/zihanshen29/5g-ffr-showcase/actions/workflows/ci.yml/badge.svg)](https://github.com/zihanshen29/5g-ffr-showcase/actions/workflows/ci.yml)
+
+这是一个面向公开工程审阅与可复现性展示的 5G 分数频率复用（Fractional Frequency Reuse, FFR）公开展示仓库。仓库用 Python 构建可重复的合成数据仿真流程，复刻自主复现所用的 MATLAB 验证管线结构：生成 SNR 与用户密度扫描、比较 IFR3/SWF/FFR 组合策略、验证定性趋势，并输出论文风格图表。
 
 > 公开边界：本仓库包含的是 synthetic/demo 数据和脱敏后的 Python 展示流程，不复制私有 MATLAB 源码，不包含未公开原始实验输出，也不把 demo 结果表述为真实论文数据。
 
